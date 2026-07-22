@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Settings — Zenvyrolabs{% endblock %}
+{% block breadcrumb %}Settings{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title"><i class="bi bi-gear me-2"></i>Settings</h1>
+  <p class="page-subtitle">Configure audio processing defaults and platform preferences.</p>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="glass-card">
+      <div class="card-header-custom"><i class="bi bi-sliders"></i> Audio Defaults</div>
+      <div class="setting-row">
+        <label class="setting-label">Default Sample Rate</label>
+        <select class="form-select bg-dark text-light border-secondary" disabled>
+          <option>16000 Hz (ML Standard)</option>
+          <option>22050 Hz</option>
+          <option>44100 Hz</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Silence Threshold</label>
+        <div class="d-flex align-items-center gap-3">
+          <input type="range" class="form-range" min="-60" max="-20" value="-40">
+          <span class="badge bg-secondary">-40 dBFS</span>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Minimum Silence Length</label>
+        <div class="d-flex align-items-center gap-3">
+          <input type="range" class="form-range" min="100" max="2000" value="500">
+          <span class="badge bg-secondary">500 ms</span>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Noise Reduction Strength</label>
+        <div class="d-flex align-items-center gap-3">
+          <input type="range" class="form-range" min="0" max="100" value="85">
+          <span class="badge bg-secondary">85%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card mt-4">
+      <div class="card-header-custom"><i class="bi bi-mic"></i> Edge-TTS Voice Defaults</div>
+      <div class="setting-row">
+        <label class="setting-label">Default English Voice</label>
+        <select class="form-select bg-dark text-light border-secondary">
+          <option>en-US-GuyNeural (Passionate Male)</option>
+          <option>en-US-ChristopherNeural</option>
+          <option>en-US-AriaNeural</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Default Hindi Voice</label>
+        <select class="form-select bg-dark text-light border-secondary">
+          <option>hi-IN-MadhurNeural</option>
+          <option>hi-IN-SwaraNeural</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="glass-card">
+      <div class="card-header-custom"><i class="bi bi-info-circle"></i> Platform Info</div>
+      <div class="info-table">
+        <div class="info-row"><span>Application</span><strong>Zenvyrolabs Voice Studio</strong></div>
+        <div class="info-row"><span>Version</span><strong>2.0.0 Production</strong></div>
+        <div class="info-row"><span>Framework</span><strong>Flask 3.x + Python 3.11</strong></div>
+        <div class="info-row"><span>Containerisation</span><strong>Docker + Docker Compose</strong></div>
+        <div class="info-row"><span>Audio Engine</span><strong>pydub + noisereduce + edge-tts</strong></div>
+        <div class="info-row"><span>ML Models</span><strong>Whisper Base (embeddings)</strong></div>
+      </div>
+    </div>
+
+    <div class="glass-card mt-4">
+      <div class="card-header-custom"><i class="bi bi-folder2"></i> Directory Paths</div>
+      <div class="info-table">
+        <div class="info-row"><span>Uploads</span><code>/uploads</code></div>
+        <div class="info-row"><span>Datasets</span><code>/datasets</code></div>
+        <div class="info-row"><span>Output</span><code>/output</code></div>
+        <div class="info-row"><span>Saved Voices</span><code>/saved_voices</code></div>
+        <div class="info-row"><span>Training Data</span><code>/training_data</code></div>
+        <div class="info-row"><span>Logs</span><code>/logs</code></div>
+      </div>
+    </div>
+
+    <div class="glass-card mt-4">
+      <div class="card-header-custom"><i class="bi bi-shield-check"></i> System Status</div>
+      <div id="sysStatus" class="mt-2">
+        <div class="health-item"><div class="health-icon text-success"><i class="bi bi-server"></i></div>
+          <div class="health-label">API Server</div><div class="health-val text-success">Running</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

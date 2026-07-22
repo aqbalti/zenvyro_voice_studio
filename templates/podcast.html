@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block title %}Podcast Studio — Zenvyrolabs{% endblock %}
+{% block breadcrumb %}Podcast Studio{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title"><i class="bi bi-broadcast me-2"></i>Podcast Studio</h1>
+  <p class="page-subtitle">Write a multi-character script, assign voices, and generate a full episode.</p>
+</div>
+
+<div class="row g-4">
+  <!-- LEFT: Voice Library + Script -->
+  <div class="col-lg-6">
+    <!-- Voice Library -->
+    <div class="glass-card mb-4">
+      <div class="card-header-custom d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-person-badge"></i> Voice Library</span>
+        <button class="btn btn-sm btn-primary-gradient" data-bs-toggle="modal" data-bs-target="#addVoiceModal">
+          <i class="bi bi-plus-lg me-1"></i>Add Voice
+        </button>
+      </div>
+      <div id="voiceLibrary">
+        <div class="empty-state"><i class="bi bi-person-plus"></i><p>No saved voices. Add one to get started.</p></div>
+      </div>
+    </div>
+
+    <!-- Script Editor -->
+    <div class="glass-card">
+      <div class="card-header-custom d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-file-text"></i> Script Editor</span>
+        <button class="btn btn-sm btn-outline-secondary" id="loadExampleBtn">Load Example</button>
+      </div>
+      <div class="script-format-hint">
+        <code>CHARACTER: their dialogue here</code>
+        <span>— Character names must match saved voices (case-insensitive)</span>
+      </div>
+      <textarea class="script-editor" id="scriptEditor" rows="14"
+        placeholder="NARUTO: Hey Luffy, what's going on?&#10;LUFFY: Nothing much, just ate the best meat ever!&#10;NARUTO: That sounds amazing, want to train together?&#10;LUFFY: Let's gooo!"></textarea>
+
+      <div class="d-flex gap-3 mt-3 align-items-center">
+        <label class="form-label text-muted mb-0 small">Pause between lines:</label>
+        <div class="d-flex align-items-center gap-2 flex-grow-1">
+          <input type="range" class="form-range" min="100" max="2000" value="500" id="pauseSlider">
+          <span class="badge bg-secondary" id="pauseVal">500ms</span>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <select class="form-select bg-dark text-light border-secondary" id="langSelect" style="max-width:160px;">
+          <option value="en">🇺🇸 English</option>
+          <option value="hi">🇮🇳 Hindi</option>
+          <option value="ur">🇵🇰 Urdu</option>
+        </select>
+        <button class="btn btn-primary-gradient flex-grow-1" id="generateBtn">
+          <i class="bi bi-play-circle me-2"></i>Generate Podcast
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Output -->
+  <div class="col-lg-6">
+    <div class="glass-card mb-4">
+      <div class="card-header-custom"><i class="bi bi-headphones"></i> Generated Podcast</div>
+      <div id="podcastPlayerWrap" style="display:none;">
+        <audio controls id="podcastPlayer" class="w-100 mb-3"></audio>
+        <div class="d-flex gap-2">
+          <a id="podcastDownload" class="btn btn-outline-info flex-grow-1" download>
+            <i class="bi bi-download me-1"></i>Download Episode
+          </a>
+          <button class="btn btn-outline-secondary" onclick="copyTranscript()">
+            <i class="bi bi-clipboard me-1"></i>Copy Script
+          </button>
+        </div>
+      </div>
+      <div id="podcastEmpty" class="empty-state">
+        <i class="bi bi-broadcast"></i>
+        <p>Your generated episode will appear here</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-header-custom"><i class="bi bi-terminal"></i> Generation Log</div>
+      <div class="log-box log-box-tall" id="genLog">
+        <span class="text-muted">Generation logs will appear here...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD VOICE MODAL ────────────────────────────────────────────────────── -->
+<div class="modal fade" id="addVoiceModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark border-secondary">
+      <div class="modal-header border-secondary">
+        <h5 class="modal-title text-light"><i class="bi bi-person-plus me-2"></i>Add Voice Profile</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label text-light">Voice Name</label>
+          <input type="text" class="form-control bg-dark text-light border-secondary"
+            id="voiceName" placeholder="e.g. NARUTO">
+          <div class="form-text text-muted">Must match character names in your script (case-insensitive)</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light">Reference Audio <span class="text-muted">(8-15s clean recording)</span></label>
+          <input type="file" class="form-control bg-dark text-light border-secondary"
+            id="voiceAudio" accept=".wav,.mp3,.flac,.ogg">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light">Reference Text <span class="text-muted">(exact words in the audio)</span></label>
+          <textarea class="form-control bg-dark text-light border-secondary" id="voiceRefText"
+            rows="3" placeholder="Type the exact words spoken in the reference audio..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer border-secondary">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary-gradient" id="saveVoiceBtn">
+          <i class="bi bi-floppy me-1"></i>Save Voice
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const pauseSlider = document.getElementById("pauseSlider");
+pauseSlider.addEventListener("input", () =>
+  document.getElementById("pauseVal").textContent = pauseSlider.value + "ms");
+
+// ── Voice Library ─────────────────────────────────────────────────────────────
+async function loadVoices() {
+  const res = await fetch("/api/voices");
+  const data = await res.json();
+  const el = document.getElementById("voiceLibrary");
+  if (!data.voices.length) {
+    el.innerHTML = `<div class="empty-state"><i class="bi bi-person-plus"></i><p>No saved voices. Add one to get started.</p></div>`;
+    return;
+  }
+  el.innerHTML = data.voices.map(v => `
+    <div class="voice-row">
+      <div class="voice-avatar">${v.name[0]}</div>
+      <div class="voice-info">
+        <div class="voice-name">${v.name}</div>
+        <div class="voice-status">${v.has_audio ? '<i class="bi bi-check-circle text-success me-1"></i>Audio ready' : '<i class="bi bi-x-circle text-danger me-1"></i>No audio'}</div>
+      </div>
+      <button class="btn btn-sm text-danger ms-auto" onclick="deleteVoice('${v.name}')">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>`).join("");
+}
+
+document.getElementById("saveVoiceBtn").addEventListener("click", async () => {
+  const name = document.getElementById("voiceName").value.trim();
+  const audio = document.getElementById("voiceAudio").files[0];
+  const refText = document.getElementById("voiceRefText").value.trim();
+  if (!name || !audio) { showToast("Name and audio file are required", "warning"); return; }
+  const fd = new FormData();
+  fd.append("name", name);
+  fd.append("audio", audio);
+  fd.append("ref_text", refText);
+  const res = await fetch("/api/voices", {method:"POST", body:fd});
+  const data = await res.json();
+  if (data.status === "saved") {
+    showToast(`Voice '${name}' saved!`, "success");
+    bootstrap.Modal.getInstance(document.getElementById("addVoiceModal")).hide();
+    document.getElementById("voiceName").value = "";
+    document.getElementById("voiceRefText").value = "";
+    loadVoices();
+  } else {
+    showToast(data.error || "Save failed", "error");
+  }
+});
+
+async function deleteVoice(name) {
+  if (!confirm(`Delete voice '${name}'?`)) return;
+  await fetch(`/api/voices/${encodeURIComponent(name)}`, {method:"DELETE"});
+  showToast("Voice deleted", "info");
+  loadVoices();
+}
+
+// ── Example Script ─────────────────────────────────────────────────────────────
+document.getElementById("loadExampleBtn").addEventListener("click", () => {
+  document.getElementById("scriptEditor").value =
+`NARUTO: Hey Luffy, long time no see! What have you been up to?
+LUFFY: I've been eating the best food in the whole ocean! You should try it sometime.
+NARUTO: Ha! That sounds amazing. I've been training hard lately. Shadow clone jutsu practice.
+LUFFY: That's awesome. My crew and I just found a crazy island full of treasure!
+NARUTO: No way! That's incredible. Maybe our crews should team up someday.
+LUFFY: Yes! We'd be unstoppable! The pirate ninja alliance!`;
+  showToast("Example script loaded", "info");
+});
+
+// ── Generate Podcast ────────────────────────────────────────────────────────────
+document.getElementById("generateBtn").addEventListener("click", async () => {
+  const script = document.getElementById("scriptEditor").value.trim();
+  if (!script) { showToast("Write a script first", "warning"); return; }
+  const logEl = document.getElementById("genLog");
+  logEl.textContent = "Starting generation...\n";
+  showLoading("Generating Podcast...");
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        script,
+        pause_ms: parseInt(pauseSlider.value),
+        language: document.getElementById("langSelect").value,
+      })
+    });
+    const data = await res.json();
+    hideLoading();
+    logEl.textContent = data.logs.join("\n");
+    if (data.output) {
+      document.getElementById("podcastEmpty").style.display = "none";
+      document.getElementById("podcastPlayerWrap").style.display = "block";
+      const audioUrl = `/api/output/${data.output}`;
+      document.getElementById("podcastPlayer").src = audioUrl;
+      document.getElementById("podcastDownload").href = `/api/download/${data.output}`;
+      document.getElementById("podcastDownload").download = data.output;
+      showToast("Podcast generated!", "success");
+    } else {
+      showToast("Generation failed — see log", "error");
+    }
+  } catch(e) {
+    hideLoading();
+    showToast("Error: " + e.message, "error");
+  }
+});
+
+function copyTranscript() {
+  navigator.clipboard.writeText(document.getElementById("scriptEditor").value);
+  showToast("Script copied to clipboard", "info");
+}
+
+loadVoices();
+</script>
+{% endblock %}

@@ -1,0 +1,111 @@
+2026-07-22 07:37:14,423 [INFO] app: Zenvyrolabs Voice Studio initialized successfully.
+2026-07-22 07:37:14,528 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.18.142:5000
+2026-07-22 07:37:14,529 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-07-22 07:37:25,328 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:25] "GET / HTTP/1.1" 200 -
+2026-07-22 07:37:25,917 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:25] "GET /static/js/studio.js HTTP/1.1" 200 -
+2026-07-22 07:37:25,918 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:25] "GET /static/css/studio.css HTTP/1.1" 200 -
+2026-07-22 07:37:30,369 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:30] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-07-22 07:37:35,093 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:35] "GET /upload HTTP/1.1" 200 -
+2026-07-22 07:37:35,595 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:35] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:37:35,765 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:35] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:37:36,404 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:36] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:37:43,902 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:37:43] "GET /api/dashboard HTTP/1.1" 200 -
+2026-07-22 07:39:35,716 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:39:35] "[33mDELETE /api/files/.gitkeep HTTP/1.1[0m" 404 -
+2026-07-22 07:39:35,768 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:39:35] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:39:39,375 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:39:39] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:39:41,131 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:39:41] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:39:47,586 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:39:47] "[33mPOST /api/clean-audio HTTP/1.1[0m" 404 -
+2026-07-22 07:39:49,827 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:39:49] "[33mPOST /api/clean-audio HTTP/1.1[0m" 404 -
+2026-07-22 07:40:45,121 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:45] "GET /training HTTP/1.1" 200 -
+2026-07-22 07:40:45,491 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:45] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:40:46,068 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:46] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:40:46,600 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:46] "GET /api/training/sessions HTTP/1.1" 200 -
+2026-07-22 07:40:52,900 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:52] "GET /podcast HTTP/1.1" 200 -
+2026-07-22 07:40:53,049 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:53] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:40:53,712 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:53] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:40:54,081 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:54] "GET /api/voices HTTP/1.1" 200 -
+2026-07-22 07:40:59,795 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:59] "GET /upload HTTP/1.1" 200 -
+2026-07-22 07:40:59,921 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:40:59] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:41:00,467 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:41:00] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:41:00,633 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:41:00] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:41:46,765 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:41:46] "GET /dashboard HTTP/1.1" 200 -
+2026-07-22 07:41:46,966 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:41:46] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:41:48,589 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:41:48] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:41:49,469 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:41:49] "GET /api/dashboard HTTP/1.1" 200 -
+2026-07-22 07:42:07,236 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:07] "GET /settings HTTP/1.1" 200 -
+2026-07-22 07:42:07,475 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:07] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:42:07,958 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:07] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:42:24,750 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:24] "GET / HTTP/1.1" 200 -
+2026-07-22 07:42:24,904 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:24] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:42:24,955 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:24] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:42:25,723 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:25] "GET /api/dashboard HTTP/1.1" 200 -
+2026-07-22 07:42:30,521 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:30] "GET /upload HTTP/1.1" 200 -
+2026-07-22 07:42:30,652 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:30] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:42:30,669 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:30] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:42:31,114 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:31] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:42:33,463 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:33] "GET / HTTP/1.1" 200 -
+2026-07-22 07:42:33,576 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:33] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:42:33,616 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:33] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:42:34,199 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:34] "GET /api/dashboard HTTP/1.1" 200 -
+2026-07-22 07:42:35,362 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:35] "GET /podcast HTTP/1.1" 200 -
+2026-07-22 07:42:35,773 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:35] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:42:35,816 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:35] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:42:36,136 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:36] "GET /api/voices HTTP/1.1" 200 -
+2026-07-22 07:42:56,099 [INFO] routes.podcast_routes: Saved voice: Aria
+2026-07-22 07:42:56,102 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:56] "POST /api/voices HTTP/1.1" 200 -
+2026-07-22 07:42:56,154 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:42:56] "GET /api/voices HTTP/1.1" 200 -
+2026-07-22 07:43:20,898 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:20] "GET /upload HTTP/1.1" 200 -
+2026-07-22 07:43:21,101 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:21] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:43:21,174 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:21] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:43:21,559 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:21] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:43:25,872 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:25] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:43:30,046 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:30] "[33mDELETE /api/files/.gitkeep HTTP/1.1[0m" 404 -
+2026-07-22 07:43:30,094 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:30] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:43:49,003 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:49] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:43:49,288 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:49] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:43:49,507 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:43:49] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:44:10,461 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:44:10] "GET /podcast HTTP/1.1" 200 -
+2026-07-22 07:44:10,678 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:44:10] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:44:11,076 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:44:11] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:44:11,995 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:44:11] "GET /api/voices HTTP/1.1" 200 -
+2026-07-22 07:45:24,838 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:45:24] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:45:30,220 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:45:30] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:46:59,784 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:46:59] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:47:14,962 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:14] "GET /upload HTTP/1.1" 200 -
+2026-07-22 07:47:15,236 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:15] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:47:15,403 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:15] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:47:16,378 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:16] "GET /api/files HTTP/1.1" 200 -
+2026-07-22 07:47:17,392 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:17] "GET /training HTTP/1.1" 200 -
+2026-07-22 07:47:17,655 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:17] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:47:17,678 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:17] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:47:18,237 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:18] "GET /api/training/sessions HTTP/1.1" 200 -
+2026-07-22 07:47:24,909 [INFO] routes.upload_routes: Uploaded: 8e501c1d5d6e4c66818a0207eb05377c_audio.wav (6529.2 KB)
+2026-07-22 07:47:24,914 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:47:24] "POST /api/upload HTTP/1.1" 200 -
+2026-07-22 07:51:03,089 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:51:03] "POST /api/train HTTP/1.1" 200 -
+2026-07-22 07:51:03,135 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:51:03] "GET /api/training/sessions HTTP/1.1" 200 -
+2026-07-22 07:52:02,656 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:02] "GET /podcast HTTP/1.1" 200 -
+2026-07-22 07:52:02,834 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:02] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:52:02,990 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:02] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:52:04,310 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:04] "GET /api/voices HTTP/1.1" 200 -
+2026-07-22 07:52:27,226 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:27] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:52:47,603 [INFO] routes.podcast_routes: Saved voice: Ali
+2026-07-22 07:52:47,611 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:47] "POST /api/voices HTTP/1.1" 200 -
+2026-07-22 07:52:47,659 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:47] "GET /api/voices HTTP/1.1" 200 -
+2026-07-22 07:52:54,819 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:54] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:52:57,208 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:52:57] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:53:00,482 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:53:00] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2026-07-22 07:53:22,775 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:53:22] "GET /training HTTP/1.1" 200 -
+2026-07-22 07:53:22,974 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:53:22] "[36mGET /static/css/studio.css HTTP/1.1[0m" 304 -
+2026-07-22 07:53:23,020 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:53:23] "[36mGET /static/js/studio.js HTTP/1.1[0m" 304 -
+2026-07-22 07:53:23,394 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:53:23] "GET /api/training/sessions HTTP/1.1" 200 -
+2026-07-22 07:55:31,004 [INFO] routes.upload_routes: Uploaded: e9acb517466745788e0f33c37d4cac90_audio.wav (722.3 KB)
+2026-07-22 07:55:31,009 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:55:31] "POST /api/upload HTTP/1.1" 200 -
+2026-07-22 07:55:51,270 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:55:51] "POST /api/train HTTP/1.1" 200 -
+2026-07-22 07:55:51,323 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:55:51] "GET /api/training/sessions HTTP/1.1" 200 -
+2026-07-22 07:58:10,625 [INFO] routes.upload_routes: Uploaded: 811f02e1d12447e1871e90677858aa23_audio.wav (722.3 KB)
+2026-07-22 07:58:10,630 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:58:10] "POST /api/upload HTTP/1.1" 200 -
+2026-07-22 07:58:24,232 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:58:24] "POST /api/train HTTP/1.1" 200 -
+2026-07-22 07:58:24,296 [INFO] werkzeug: 192.168.18.142 - - [22/Jul/2026 07:58:24] "GET /api/training/sessions HTTP/1.1" 200 -

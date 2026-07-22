@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Zenvyrolabs{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title"><i class="bi bi-grid-1x2 me-2"></i>Dashboard</h1>
+  <p class="page-subtitle">System overview, storage usage, and processing activity.</p>
+</div>
+
+<!-- Stats Row -->
+<div class="stats-row" id="statsRow">
+  <div class="stat-card">
+    <div class="stat-icon upload-icon"><i class="bi bi-file-music"></i></div>
+    <div class="stat-body"><div class="stat-value" id="dUploads">—</div><div class="stat-label">Uploaded Files</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon voice-icon"><i class="bi bi-person-badge"></i></div>
+    <div class="stat-body"><div class="stat-value" id="dVoices">—</div><div class="stat-label">Voice Profiles</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon dataset-icon"><i class="bi bi-database"></i></div>
+    <div class="stat-body"><div class="stat-value" id="dDatasets">—</div><div class="stat-label">Training Datasets</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon podcast-icon"><i class="bi bi-headphones"></i></div>
+    <div class="stat-body"><div class="stat-value" id="dPodcasts">—</div><div class="stat-label">Podcasts Generated</div></div>
+  </div>
+</div>
+
+<div class="row g-4 mt-1">
+  <!-- Storage Chart -->
+  <div class="col-lg-5">
+    <div class="glass-card h-100">
+      <div class="card-header-custom"><i class="bi bi-hdd-stack"></i> Storage Usage</div>
+      <div class="chart-wrap">
+        <canvas id="storageChart" height="240"></canvas>
+      </div>
+      <div id="storageDetails" class="storage-details mt-3"></div>
+    </div>
+  </div>
+
+  <!-- System Health -->
+  <div class="col-lg-7">
+    <div class="glass-card h-100">
+      <div class="card-header-custom"><i class="bi bi-heart-pulse"></i> System Health</div>
+      <div class="health-grid" id="healthGrid">
+        <div class="health-item">
+          <div class="health-icon text-success"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="health-label">Flask Server</div>
+          <div class="health-val text-success">Online</div>
+        </div>
+        <div class="health-item">
+          <div class="health-icon" id="gpuIcon"><i class="bi bi-gpu-card"></i></div>
+          <div class="health-label">GPU</div>
+          <div class="health-val" id="gpuVal">Checking...</div>
+        </div>
+        <div class="health-item">
+          <div class="health-icon text-info"><i class="bi bi-hdd"></i></div>
+          <div class="health-label">Storage</div>
+          <div class="health-val text-info" id="totalStorage">—</div>
+        </div>
+        <div class="health-item">
+          <div class="health-icon text-warning"><i class="bi bi-clock-history"></i></div>
+          <div class="health-label">Uptime</div>
+          <div class="health-val text-warning" id="uptimeVal">—</div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="card-header-custom mb-3"><i class="bi bi-person-lines-fill"></i> Active Voice Profiles</div>
+        <div id="voiceProfilesList">
+          <div class="empty-state"><i class="bi bi-person-plus"></i><p>No voices saved yet</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let storageChart = null;
+const startTime = Date.now();
+
+async function loadDashboard() {
+  const res = await fetch("/api/dashboard");
+  const d = await res.json();
+
+  document.getElementById("dUploads").textContent  = d.uploads;
+  document.getElementById("dVoices").textContent   = d.voices;
+  document.getElementById("dDatasets").textContent = d.datasets;
+  document.getElementById("dPodcasts").textContent = d.podcasts;
+
+  // Storage chart
+  const ctx = document.getElementById("storageChart").getContext("2d");
+  const vals = [d.storage.uploads_mb, d.storage.output_mb, d.storage.training_mb];
+  if (storageChart) storageChart.destroy();
+  storageChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Uploads", "Output", "Training"],
+      datasets: [{
+        data: vals,
+        backgroundColor: ["#6366f1","#06b6d4","#8b5cf6"],
+        borderColor: "#0f172a",
+        borderWidth: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: "#94a3b8", font: { size: 13 } } }
+      }
+    }
+  });
+
+  const total = vals.reduce((a, b) => a + b, 0).toFixed(1);
+  document.getElementById("totalStorage").textContent = total + " MB";
+  document.getElementById("storageDetails").innerHTML = `
+    <div class="sd-row"><span class="sd-dot" style="background:#6366f1"></span>Uploads <strong>${d.storage.uploads_mb} MB</strong></div>
+    <div class="sd-row"><span class="sd-dot" style="background:#06b6d4"></span>Output <strong>${d.storage.output_mb} MB</strong></div>
+    <div class="sd-row"><span class="sd-dot" style="background:#8b5cf6"></span>Training <strong>${d.storage.training_mb} MB</strong></div>`;
+
+  // GPU
+  const gpu = d.system.gpu;
+  document.getElementById("gpuVal").textContent = gpu.available ? gpu.name : "CPU only";
+  document.getElementById("gpuIcon").className = "health-icon " + (gpu.available ? "text-success" : "text-muted");
+
+  // Voices
+  const vpEl = document.getElementById("voiceProfilesList");
+  if (d.voice_list.length) {
+    vpEl.innerHTML = d.voice_list.map(v => `
+      <div class="vp-row">
+        <div class="vp-avatar">${v[0]}</div>
+        <span class="vp-name">${v}</span>
+        <span class="badge bg-success ms-auto">Ready</span>
+      </div>`).join("");
+  } else {
+    vpEl.innerHTML = `<div class="empty-state"><i class="bi bi-person-plus"></i><p>No voices saved yet</p></div>`;
+  }
+}
+
+// Uptime counter
+setInterval(() => {
+  const secs = Math.floor((Date.now() - startTime) / 1000);
+  const m = Math.floor(secs / 60), s = secs % 60;
+  document.getElementById("uptimeVal").textContent = `${m}m ${s}s`;
+}, 1000);
+
+loadDashboard();
+setInterval(loadDashboard, 30000);
+</script>
+{% endblock %}

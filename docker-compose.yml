@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  voice_studio:
+    build: .
+    container_name: zenvyro_voice_studio
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./datasets:/app/datasets
+      - ./output:/app/output
+      - ./logs:/app/logs
+      - ./saved_voices:/app/saved_voices
+      - ./training_data:/app/training_data
+    environment:
+      - FLASK_DEBUG=false
+      - SECRET_KEY=zenvyro-docker-secret-change-me
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

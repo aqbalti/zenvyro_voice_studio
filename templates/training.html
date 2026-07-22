@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% block title %}Voice Training — Zenvyrolabs{% endblock %}
+{% block breadcrumb %}Voice Training{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title"><i class="bi bi-cpu me-2"></i>Voice Training Studio</h1>
+  <p class="page-subtitle">Preprocess raw audio datasets into ML-ready training segments. 10+ minutes recommended.</p>
+</div>
+
+<div class="row g-4">
+  <!-- Left: Pipeline Config -->
+  <div class="col-lg-5">
+    <div class="glass-card">
+      <div class="card-header-custom"><i class="bi bi-sliders2"></i> Pipeline Configuration</div>
+
+      <div class="mb-4">
+        <label class="form-label text-light fw-500">Raw Training Audio</label>
+        <div class="drop-zone drop-zone-sm" id="trainDropZone">
+          <div class="drop-zone-inner">
+            <i class="bi bi-file-earmark-music" style="font-size:2rem;color:#6366f1;"></i>
+            <p class="drop-title mt-2">Drop audio file here</p>
+            <p class="drop-sub">10+ minutes recommended for quality training</p>
+          </div>
+          <input type="file" id="trainFileInput" accept=".wav,.mp3,.flac,.ogg" hidden>
+        </div>
+        <div id="trainFileName" class="mt-2 text-muted small" style="display:none;"></div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label text-light fw-500 d-flex justify-content-between">
+          Chunk Size (seconds) <span class="badge bg-primary" id="chunkVal">10s</span>
+        </label>
+        <input type="range" class="form-range" min="5" max="30" value="10" id="chunkSlider">
+        <div class="range-hints"><span>5s</span><span>Each chunk = 1 training sample</span><span>30s</span></div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label text-light fw-500 d-flex justify-content-between">
+          Target Volume (dBFS) <span class="badge bg-secondary" id="normVal">-20 dBFS</span>
+        </label>
+        <input type="range" class="form-range" min="-30" max="-10" value="-20" id="normSlider">
+        <div class="range-hints"><span>-30</span><span>Normalise all chunks</span><span>-10</span></div>
+      </div>
+
+      <div class="pipeline-steps mb-4">
+        <div class="pipeline-step"><div class="ps-number">1</div><div class="ps-label">Load & Validate</div></div>
+        <div class="ps-connector"></div>
+        <div class="pipeline-step"><div class="ps-number">2</div><div class="ps-label">Noise Reduction</div></div>
+        <div class="ps-connector"></div>
+        <div class="pipeline-step"><div class="ps-number">3</div><div class="ps-label">Silence Removal</div></div>
+        <div class="ps-connector"></div>
+        <div class="pipeline-step"><div class="ps-number">4</div><div class="ps-label">Normalize & Resample</div></div>
+        <div class="ps-connector"></div>
+        <div class="pipeline-step"><div class="ps-number">5</div><div class="ps-label">Export Chunks</div></div>
+      </div>
+
+      <button class="btn btn-primary-gradient w-100 btn-lg" id="preprocessBtn">
+        <i class="bi bi-play-circle me-2"></i>Run Preprocessing Pipeline
+      </button>
+    </div>
+  </div>
+
+  <!-- Right: Results -->
+  <div class="col-lg-7">
+    <div class="glass-card mb-4">
+      <div class="card-header-custom"><i class="bi bi-terminal"></i> Live Pipeline Log</div>
+      <div class="log-box log-box-tall" id="trainLog">
+        <span class="text-muted">Pipeline output will appear here...</span>
+      </div>
+    </div>
+
+    <div class="glass-card mb-4" id="trainResultCard" style="display:none;">
+      <div class="card-header-custom"><i class="bi bi-check-circle text-success"></i> Preprocessing Results</div>
+      <div class="row g-3 p-3" id="trainStats">
+        <div class="col-6 col-md-3">
+          <div class="mini-stat">
+            <div class="ms-val" id="resChunks">—</div>
+            <div class="ms-label">Chunks</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="mini-stat">
+            <div class="ms-val" id="resDur">—</div>
+            <div class="ms-label">Duration</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="mini-stat">
+            <div class="ms-val">16kHz</div>
+            <div class="ms-label">Sample Rate</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="mini-stat">
+            <div class="ms-val" id="resSession">—</div>
+            <div class="ms-label">Session</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sessions List -->
+    <div class="glass-card">
+      <div class="card-header-custom d-flex justify-content-between">
+        <span><i class="bi bi-folder2"></i> Training Sessions</span>
+        <button class="btn btn-sm btn-outline-secondary" onclick="loadSessions()"><i class="bi bi-arrow-clockwise"></i></button>
+      </div>
+      <div id="sessionsList">
+        <div class="empty-state"><i class="bi bi-folder-x"></i><p>No sessions yet</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Sliders
+const chunkSlider = document.getElementById("chunkSlider");
+const normSlider  = document.getElementById("normSlider");
+chunkSlider.addEventListener("input", () => document.getElementById("chunkVal").textContent = chunkSlider.value + "s");
+normSlider.addEventListener("input",  () => document.getElementById("normVal").textContent = normSlider.value + " dBFS");
+
+// Drop zone for training
+const trainDZ = document.getElementById("trainDropZone");
+const trainFI = document.getElementById("trainFileInput");
+let trainFile = null;
+
+trainDZ.addEventListener("click", () => trainFI.click());
+trainDZ.addEventListener("dragover", e => { e.preventDefault(); trainDZ.classList.add("dragover"); });
+trainDZ.addEventListener("dragleave", () => trainDZ.classList.remove("dragover"));
+trainDZ.addEventListener("drop", e => {
+  e.preventDefault(); trainDZ.classList.remove("dragover");
+  if (e.dataTransfer.files[0]) setTrainFile(e.dataTransfer.files[0]);
+});
+trainFI.addEventListener("change", () => { if(trainFI.files[0]) setTrainFile(trainFI.files[0]); });
+
+async function setTrainFile(file) {
+  // Upload first
+  trainFile = null;
+  const nameEl = document.getElementById("trainFileName");
+  nameEl.style.display = "block";
+  nameEl.innerHTML = `<i class="bi bi-cloud-upload text-primary me-1"></i> Uploading ${file.name}...`;
+  const fd = new FormData();
+  fd.append("files", file);
+  const res = await fetch("/api/upload", {method:"POST", body:fd});
+  const data = await res.json();
+  if (data.results[0]?.status === "success") {
+    trainFile = data.results[0].saved_as;
+    nameEl.innerHTML = `<i class="bi bi-check-circle text-success me-1"></i> Ready: ${file.name} (${data.results[0].size_kb} KB)`;
+    showToast("File ready for training", "success");
+  } else {
+    nameEl.innerHTML = `<i class="bi bi-x-circle text-danger me-1"></i> Upload failed`;
+  }
+}
+
+document.getElementById("preprocessBtn").addEventListener("click", async () => {
+  if (!trainFile) { showToast("Upload an audio file first", "warning"); return; }
+  const log = document.getElementById("trainLog");
+  log.textContent = "Initializing pipeline...\n";
+  showLoading("Running ML Pipeline...");
+  try {
+    const res = await fetch("/api/train", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        filename: trainFile,
+        chunk_seconds: parseFloat(chunkSlider.value),
+        normalize_db: parseFloat(normSlider.value),
+      })
+    });
+    const data = await res.json();
+    hideLoading();
+    log.textContent = data.logs.join("\n");
+    if (data.status === "success") {
+      document.getElementById("trainResultCard").style.display = "block";
+      const parts = data.session_dir.split(/[/\\]/);
+      document.getElementById("resSession").textContent = parts[parts.length-1];
+      showToast("Preprocessing complete!", "success");
+      loadSessions();
+    } else {
+      showToast("Pipeline failed", "error");
+    }
+  } catch(e) {
+    hideLoading();
+    showToast("Error: " + e.message, "error");
+  }
+});
+
+async function loadSessions() {
+  const res = await fetch("/api/training/sessions");
+  const data = await res.json();
+  const el = document.getElementById("sessionsList");
+  if (!data.sessions.length) {
+    el.innerHTML = `<div class="empty-state"><i class="bi bi-folder-x"></i><p>No sessions yet</p></div>`;
+    return;
+  }
+  el.innerHTML = data.sessions.map(s => `
+    <div class="session-row">
+      <i class="bi bi-folder-fill text-warning me-2"></i>
+      <span class="session-name">${s.name}</span>
+      <span class="session-chunks badge bg-secondary">${s.chunks} chunks</span>
+    </div>`).join("");
+}
+
+loadSessions();
+</script>
+{% endblock %}

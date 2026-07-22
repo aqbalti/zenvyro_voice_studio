@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Home — Zenvyrolabs Voice Studio{% endblock %}
+{% block breadcrumb %}Home{% endblock %}
+
+{% block content %}
+<!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+<section class="hero-section">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="bi bi-stars"></i> AI-Powered Voice Platform</div>
+    <h1 class="hero-title">Clone Any Voice.<br><span class="gradient-text">Generate Any Story.</span></h1>
+    <p class="hero-subtitle">
+      Upload audio datasets, train custom voice models, and produce studio-quality
+      podcasts with multiple AI voices — all in one platform.
+    </p>
+    <div class="hero-actions">
+      <a href="/upload" class="btn btn-primary-gradient btn-lg">
+        <i class="bi bi-cloud-upload me-2"></i>Upload Dataset
+      </a>
+      <a href="/podcast" class="btn btn-glass btn-lg">
+        <i class="bi bi-broadcast me-2"></i>Start Podcast
+      </a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="waveform-animation">
+      {% for i in range(32) %}
+      <div class="wave-bar" style="--i: {{ i }}"></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ROW ─────────────────────────────────────────────────────────── -->
+<div class="stats-row" id="statsRow">
+  <div class="stat-card">
+    <div class="stat-icon upload-icon"><i class="bi bi-file-music"></i></div>
+    <div class="stat-body">
+      <div class="stat-value" id="statUploads">—</div>
+      <div class="stat-label">Audio Files Uploaded</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon voice-icon"><i class="bi bi-person-badge"></i></div>
+    <div class="stat-body">
+      <div class="stat-value" id="statVoices">—</div>
+      <div class="stat-label">Saved Voice Profiles</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon dataset-icon"><i class="bi bi-database"></i></div>
+    <div class="stat-body">
+      <div class="stat-value" id="statDatasets">—</div>
+      <div class="stat-label">Training Datasets</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon podcast-icon"><i class="bi bi-headphones"></i></div>
+    <div class="stat-body">
+      <div class="stat-value" id="statPodcasts">—</div>
+      <div class="stat-label">Podcasts Generated</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── QUICK ACTIONS ──────────────────────────────────────────────────────── -->
+<section class="section-block">
+  <div class="section-header">
+    <h2 class="section-title">Quick Actions</h2>
+    <p class="section-sub">Jump into your most-used workflows</p>
+  </div>
+  <div class="quick-grid">
+    <a href="/upload" class="quick-card">
+      <div class="quick-icon" style="--clr: #6366f1"><i class="bi bi-cloud-upload-fill"></i></div>
+      <div class="quick-title">Upload & Clean Audio</div>
+      <div class="quick-desc">Drag-drop WAV, MP3, FLAC, OGG files and run automated noise removal.</div>
+      <div class="quick-arrow"><i class="bi bi-arrow-right"></i></div>
+    </a>
+    <a href="/training" class="quick-card">
+      <div class="quick-icon" style="--clr: #8b5cf6"><i class="bi bi-cpu-fill"></i></div>
+      <div class="quick-title">Train Voice Model</div>
+      <div class="quick-desc">Preprocess 10+ minute recordings into clean ML training datasets.</div>
+      <div class="quick-arrow"><i class="bi bi-arrow-right"></i></div>
+    </a>
+    <a href="/podcast" class="quick-card">
+      <div class="quick-icon" style="--clr: #06b6d4"><i class="bi bi-broadcast-pin"></i></div>
+      <div class="quick-title">Generate Podcast</div>
+      <div class="quick-desc">Write a multi-character script and produce a fully voiced podcast.</div>
+      <div class="quick-arrow"><i class="bi bi-arrow-right"></i></div>
+    </a>
+    <a href="/dashboard" class="quick-card">
+      <div class="quick-icon" style="--clr: #10b981"><i class="bi bi-graph-up"></i></div>
+      <div class="quick-title">View Dashboard</div>
+      <div class="quick-desc">Monitor storage usage, processing queue, and system health.</div>
+      <div class="quick-arrow"><i class="bi bi-arrow-right"></i></div>
+    </a>
+  </div>
+</section>
+
+<!-- ── FEATURE HIGHLIGHTS ────────────────────────────────────────────────── -->
+<section class="section-block">
+  <div class="section-header">
+    <h2 class="section-title">Platform Features</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <i class="bi bi-shield-check feature-ico"></i>
+      <h4>Noise Reduction</h4>
+      <p>Spectral noise gating removes background hum, hiss, and static from raw recordings.</p>
+    </div>
+    <div class="feature-item">
+      <i class="bi bi-scissors feature-ico"></i>
+      <h4>Silence Removal</h4>
+      <p>Automatically detect and strip dead air while preserving natural breathing rhythms.</p>
+    </div>
+    <div class="feature-item">
+      <i class="bi bi-translate feature-ico"></i>
+      <h4>Hindi / Urdu TTS</h4>
+      <p>Roman-to-Devanagari transliteration pipeline ensures perfect native pronunciation.</p>
+    </div>
+    <div class="feature-item">
+      <i class="bi bi-people feature-ico"></i>
+      <h4>Multi-Voice Podcast</h4>
+      <p>Assign different AI voices to different characters and stitch them into one episode.</p>
+    </div>
+    <div class="feature-item">
+      <i class="bi bi-activity feature-ico"></i>
+      <h4>Cosine Similarity Scoring</h4>
+      <p>Whisper encoder embeddings score how closely a clone matches the original voice.</p>
+    </div>
+    <div class="feature-item">
+      <i class="bi bi-box-arrow-down feature-ico"></i>
+      <h4>One-Click Download</h4>
+      <p>Download any processed or generated audio file with a single button press.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  fetch("/api/dashboard").then(r => r.json()).then(d => {
+    document.getElementById("statUploads").textContent = d.uploads;
+    document.getElementById("statVoices").textContent  = d.voices;
+    document.getElementById("statDatasets").textContent = d.datasets;
+    document.getElementById("statPodcasts").textContent = d.podcasts;
+  });
+</script>
+{% endblock %}
