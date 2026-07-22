@@ -22,7 +22,7 @@ Clone voices, clean audio datasets, train ML preprocessing pipelines, and genera
 
 ### Docker (Recommended)
 ```bash
-git clone https://github.com/zenvyrolabs/voice-studio
+git clone https://github.com/aqbalti/zenvyrolabs/voice-studio
 cd voice-studio
 docker-compose up --build
 ```
